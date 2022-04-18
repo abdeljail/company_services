@@ -1,6 +1,10 @@
 <template>
-  <footer v-if="checkRoute" class="bg-light pt-4">
+  <footer  class="bg-light pt-4">
     <div class="top-footer">
+      <b-nav-item
+        to="/sing-in"
+        > dddddddddddddddddddddddd </b-nav-item
+      >
       <b-container fluid>
         <b-row class="p-3">
           <b-col sm="5" md="4" class="p-3">
@@ -92,7 +96,6 @@ export default {
   name: "Footer",
   data() {
     return {
-      checkRoute: true,
       linksFooter: [
         ["about us", "/sdgdsg"],
         ["Home", "/"],
@@ -104,14 +107,9 @@ export default {
       ],
     };
   },
-  created() {
-    if (this.$route.path === "/sing-in") this.checkRoute = !this.checkRoute;
-  },
   inject: ["logoImage"],
 };
 </script>
-
-
 <style scoped>
 .bottom-footer {
   background-color: var(--primary);
