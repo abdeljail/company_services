@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-light pt-4">
+  <footer v-if="checkRoute" class="bg-light pt-4">
     <div class="top-footer">
       <b-container fluid>
         <b-row class="p-3">
@@ -92,6 +92,7 @@ export default {
   name: "Footer",
   data() {
     return {
+      checkRoute: true,
       linksFooter: [
         ["about us", "/sdgdsg"],
         ["Home", "/"],
@@ -102,6 +103,9 @@ export default {
         ["Our trainings", "/gdsg"],
       ],
     };
+  },
+  created() {
+    if (this.$route.path === "/sing-in") this.checkRoute = !this.checkRoute;
   },
   inject: ["logoImage"],
 };
