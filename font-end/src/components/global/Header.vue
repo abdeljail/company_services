@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header v-if="checkRoute">
     <div>
       <b-navbar class="nav" toggleable="lg" type="dark" variant="info">
         <b-container fluid class="py-2 px-3 d-flex justify-content-between"
@@ -58,6 +58,7 @@ export default {
   name: "Header",
   data() {
     return {
+      checkRoute: true,
       linksHeader: [
         ["Home", "/"],
         ["Training Offer", "/about"],
@@ -74,6 +75,9 @@ export default {
         ["Recruitment consulting assistance", "Recruitment"],
       ],
     };
+  },
+  created() {
+    if (this.$route.path === "/sing-in") this.checkRoute = !this.checkRoute;
   },
   inject: ["logoImage"],
 };
