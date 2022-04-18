@@ -1,13 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import SinIn  from "../views/SingIn.vue"
+import SinIn from "../views/SingIn.vue"
+import SingUp from "../views/SingUp.vue"
 
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
+const routes = [{
     path: "/",
     name: "HomeView",
     component: HomeView,
@@ -19,14 +19,25 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: function () {
-      return import(/* webpackChunkName: "about" */ "../views/AboutView.vue");
+      return import( /* webpackChunkName: "about" */ "../views/AboutView.vue");
     },
   },
   {
-    path:"/sing-in",
-    name:"SinIn",
-    component: SinIn
+    path: "/sing-in",
+    name: "SinIn",
+    component: SinIn,
+    meta: {
+      header: 0
+    }
   },
+  {
+    path: "/sing-up",
+    name: SingUp,
+    component: SingUp,
+    meta: {
+      header: 0
+    }
+  }
 ];
 
 const router = new VueRouter({
