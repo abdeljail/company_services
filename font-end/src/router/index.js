@@ -1,13 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import SinIn  from "../views/SingIn.vue"
+
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "home",
+    name: "HomeView",
     component: HomeView,
   },
   {
@@ -19,6 +21,11 @@ const routes = [
     component: function () {
       return import(/* webpackChunkName: "about" */ "../views/AboutView.vue");
     },
+  },
+  {
+    path:"/sing-in",
+    name:"SinIn",
+    component: SinIn
   },
 ];
 
