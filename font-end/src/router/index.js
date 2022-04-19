@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import SinIn from "../views/SingIn.vue"
 import SingUp from "../views/SingUp.vue"
+import ContactUs from "../views/CantactUs.vue"
 
 
 Vue.use(VueRouter);
@@ -21,6 +22,11 @@ const routes = [{
     component: function () {
       return import( /* webpackChunkName: "about" */ "../views/AboutView.vue");
     },
+  },
+  {
+    path: "/contact-us",
+    name: "ContactUs",
+    component: ContactUs,
   },
   {
     path: "/sing-in",
