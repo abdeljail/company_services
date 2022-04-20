@@ -104,9 +104,6 @@ export default {
   },
   components: {},
   methods: {
-    onSubmit() {
-      return "yes";
-    },
     checkEmail() {
       if (
         !this.name.includes("@") ||
@@ -140,7 +137,7 @@ export default {
     printClass(nameValue) {
       if (nameValue === "") return "";
       if (nameValue) return "sec-input";
-      if (!nameValue) return "err-input";
+      return "err-input";
     },
   },
 };
@@ -150,7 +147,7 @@ export default {
 .sing-in {
   height: 100vh;
   width: 100vw;
-  background: url(http://localhost:8080/img/world.05e203a7.png) no-repeat 100%;
+  background: url("../assets/images/world.png") no-repeat 100%;
 }
 .back-home {
   top: 20px;
@@ -162,6 +159,7 @@ export default {
   min-width: 280px;
   max-width: 280px;
   min-height: 320px;
+  box-shadow: -2px 20px 100px 400px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
