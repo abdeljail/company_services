@@ -3,7 +3,7 @@
     <div>
       <img
         class="rounded"
-        :src="require('@/assets/images/vision.png')"
+        :src="require( `@/assets/images/${srcImage}`)"
         alt="image Nouvelle Formation "
       />
     </div>
@@ -43,6 +43,8 @@ export default {
     printClass() {
       return this.classPack === "nouvelle-formation"
         ? "nouvelle-formation bg-light rounded border border-1"
+        : this.classPack === "skills"
+        ? "skills rounded border border-1"
         : this.classPack;
     },
   },
@@ -62,6 +64,7 @@ section .nouvelle-formation > div:first-child {
   height: 200px;
 }
 section .nouvelle-formation > div:first-child img,
+.skills > div img,
 .mission-vision div:first-child img {
   width: inherit;
   height: inherit;
@@ -80,6 +83,30 @@ section .nouvelle-formation > div:last-child p {
 .mission-vision h3 {
   font-family: var(--font-link);
   color: var(--cl-paragraph);
+}
+.skills {
+  width: 100%;
+  background: var(--second);
+  border-color: #041e31 !important;
+}
+.skills div:first-child {
+  width: 100%;
+  height: 200px;
+}
+.skills h3 {
+  color: var(--bc-white);
+  font-size: 18px;
+  padding-top:10px ;
+  margin: 0;
+  text-align: center;
+}
+.skills div img{
+  transition: .09s ease-in;
+  display: flex;
+}
+.skills:hover div img{
+  transform: rotate(-3deg) translateY(-5px) scale(1.03,1.03);
+  box-shadow: 0 1px 16px 0px var(--second);
 }
 @media (max-width: 575px) {
   section .nouvelle-formation > div:last-child p {
