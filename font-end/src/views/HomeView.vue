@@ -29,7 +29,7 @@
     <div class="packs py-5">
       <b-container>
         <b-row class="py-4" ols-sm="1" cols-md="1" cols="1">
-          <b-col class="py-2">
+          <b-col class="py-5">
             <PackH1ParaImg
               paragraph="Sed porttitor lectus nibh. Vestibulum ante ipsum primis in
                 faucibus orci luctus et ultrices posuere cubilia Curae; Donec
@@ -38,11 +38,11 @@
                 at sem. Vestibulum ac diam sit amet quam vehicula elementum sed
                 sit amet dui."
               heading="our mission"
-              srcImage="@/assets/images/vision.png"
+              srcImage="vision.png"
               classPack="mission-vision d-flex"
             />
           </b-col>
-          <b-col class="py-2">
+          <b-col class="py-5">
             <PackH1ParaImg
               paragraph="Sed porttitor lectus nibh. Vestibulum ante ipsum primis in
                 faucibus orci luctus et ultrices posuere cubilia Curae; Donec
@@ -51,7 +51,7 @@
                 at sem. Vestibulum ac diam sit amet quam vehicula elementum sed
                 sit amet dui."
               heading="Our vision"
-              srcImage="@/assets/images/vision.png"
+              srcImage="mission.png"
               classPack="mission-vision d-flex"
             />
           </b-col>
