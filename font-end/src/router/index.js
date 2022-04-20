@@ -1,10 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import ContactUs from "../views/CantactUs.vue"
+import Skills from "../views/Skills.vue"
 import SinIn from "../views/SingIn.vue"
 import SingUp from "../views/SingUp.vue"
-import ContactUs from "../views/CantactUs.vue"
-
 
 Vue.use(VueRouter);
 
@@ -27,6 +27,11 @@ const routes = [{
     path: "/contact-us",
     name: "ContactUs",
     component: ContactUs,
+  },
+  {
+    path: "/skills",
+    name: "Skills",
+    component: Skills,
   },
   {
     path: "/sing-in",
