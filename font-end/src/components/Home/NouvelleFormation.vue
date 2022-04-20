@@ -98,37 +98,37 @@ export default {
           nameFormation: "abdeljalil 1",
           description:
             "Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Donec rutrum congue leo eget malesuada",
-          srcImage: "@/assets/images/local.png",
+          srcImage: "local.png",
         },
         {
           nameFormation: "abdeljalil 1",
           description:
             "Pellentesque in ipsum id orci porta dapibus. Donec rutrum congue leo eget malesuada.",
-          srcImage: "@/assets/images/local.png",
+          srcImage: "local.png",
         },
         {
           nameFormation: "abdeljalil 1",
           description:
             "Nulla quis lorem ut libero malesuada feugiat. Cras ultricies ligula sed magna dictum porta. Nulla quis lorem ut libero malesuada feugiat.",
-          srcImage: "@/assets/images/local.png",
+          srcImage: "local.png",
         },
         {
           nameFormation: "abdeljalil 1",
           description:
             "Donec rutrum congue leo eget malesuada. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.",
-          srcImage: "@/assets/images/local.png",
+          srcImage: "local.png",
         },
         {
           nameFormation: "abdeljalil 1",
           description:
             "Nulla quis lorem ut libero malesuada feugiat. Cras ultricies ligula sed magna dictum porta. Nulla quis lorem ut libero malesuada feugiat.",
-          srcImage: "@/assets/images/local.png",
+          srcImage: "local.png",
         },
         {
           nameFormation: "abdeljalil 1",
           description:
             "Donec rutrum congue leo eget malesuada. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.",
-          srcImage: "@/assets/images/local.png",
+          srcImage: "local.png",
         },
       ],
     };
