@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import ContactUs from "../views/CantactUs.vue"
 import Skills from "../views/Skills.vue"
+import TrainingOffer from "../views/TrainingOffer.vue"
 import SinIn from "../views/SingIn.vue"
 import SingUp from "../views/SingUp.vue"
 
@@ -32,6 +33,11 @@ const routes = [{
     path: "/skills",
     name: "Skills",
     component: Skills,
+  },
+  {
+    path: "/training-offer",
+    name: "TrainingOffer",
+    component: TrainingOffer
   },
   {
     path: "/sing-in",
