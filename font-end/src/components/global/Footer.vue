@@ -97,13 +97,12 @@ export default {
   data() {
     return {
       linksFooter: [
-        ["about us", "/sdgdsg"],
         ["Home", "/"],
-        ["Contact Us", "ContactUs"],
-        ["Our Services", "#"],
-        ["Our Trainings", "/gd"],
-        ["Training Offer", "/about"],
-        ["Our trainings", "/gdsg"],
+        ["about us", "/who-are-we"],
+        ["Contact Us", "/contact-us"],
+        ["Our Services", "/skills"],
+        ["Our Trainings", "/training-offer"],
+        ["Quote request", "/application-r-i"],
       ],
     };
   },

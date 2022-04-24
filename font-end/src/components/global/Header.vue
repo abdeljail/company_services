@@ -13,21 +13,12 @@
             <b-navbar-nav class="d-flex justify-content-end flex-grow-1">
               <div :key="idx" v-for="(link, idx) in linksHeader">
                 <b-nav-item-dropdown
-                  v-if="idx === 5 || idx === 3"
+                  v-if="idx === 5"
                   :text="link[0]"
                   class="item-link px-2 py-1 rounded text-capitalize"
                   right
                 >
-                  <div v-if="idx === 3">
-                    <b-dropdown-item
-                      :id="link[0]"
-                      :key="index"
-                      v-for="(link, index) in OurServices"
-                      :to="link[1]"
-                      >{{ link[0] }}</b-dropdown-item
-                    >
-                  </div>
-                  <div v-else>
+                  <div>
                     <b-dropdown-item
                       :key="index"
                       v-for="(link, index) in OurServices"
@@ -61,18 +52,15 @@ export default {
       checkRoute: true,
       linksHeader: [
         ["Home", "/"],
-        ["Training Offer", "/about"],
-        ["about us", "/sdgdsg"],
-        ["Our Services", "#"],
-        ["Our Trainings", "/gd"],
-        ["More", "/gdsg"],
+        ["Training Offer", "/training-offer"],
+        ["Quote request", "/application-r-i"],
+        ["about us", "/who-are-we"],
+        ["Contact Us", "/contact-us"],
+        ["More", "#"], 
       ],
       OurServices: [
-        ["Engineering Training", "Engineering"],
-        ["training", "TRAINING"],
-        ["outsourcing", "OUTSOURCING"],
-        ["interim for business", "interim for business"],
-        ["Recruitment consulting assistance", "Recruitment"],
+        ["sing in", "sing-in"],
+        ["sing up", "sing-up"],
       ],
     };
   },
