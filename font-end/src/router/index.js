@@ -12,6 +12,7 @@ import RespanseApplication from "../components/ApplicationRI/RespanseApplication
 import SelectTypeApplication from "../components/ApplicationRI/SelectTypeApplication.vue"
 import UploadCv from "../components/ApplicationRI/UploadCv.vue"
 import AdminSingIn from "../admin/SingIn.vue"
+import Dachboard from "../admin/Dach.vue"
 
 Vue.use(VueRouter);
 
@@ -25,10 +26,16 @@ const routes = [
     alias: '/home',
     name: "HomeView",
     component: HomeView,
+    meta: {
+      header: 1
+    },
   },
   {
     path: "/about",
     name: "about",
+    meta: {
+      header: 1
+    },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -40,21 +47,33 @@ const routes = [
     path: "/contact-us",
     name: "ContactUs",
     component: ContactUs,
+    meta: {
+      header: 1
+    },
   },
   {
     path: "/skills",
     name: "Skills",
     component: Skills,
+    meta: {
+      header: 1
+    },
   },
   {
     path: "/training-offer",
     name: "TrainingOffer",
-    component: TrainingOffer
+    component: TrainingOffer,
+    meta: {
+      header: 1
+    },
   },
   {
     path: "/who-are-we",
     name: "Who-are-we",
-    component: WhoAreWe
+    component: WhoAreWe,
+    meta: {
+      header: 1
+    },
   },
   {
     path: "/application-r-i/",
@@ -128,16 +147,19 @@ const routes = [
     name: "AdminSingIn",
     component: AdminSingIn,
     meta: {
-      header: 0
+      header: 2
+
+    }
+  },
+  {
+    path: "/dachboard",
+    name: "Dachboard",
+    component: Dachboard,
+    meta: {
+      header: 2
 
     }
   }
-
-
-
-
-
-
 
 
 ];
