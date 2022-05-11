@@ -38,9 +38,6 @@ export default {
   },
   created() {},
   methods: {
-    backRoute() {
-      console.log(this.$router.go(-1));
-    },
   },
 };
 </script>
