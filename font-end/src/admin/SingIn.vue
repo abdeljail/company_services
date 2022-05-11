@@ -16,7 +16,7 @@
                   class="px-2 py-2 w-100 border rounded border-2"
                   type="email"
                   name="email"
-                  v-model="name"
+                  v-model="email"
                   id="email"
                   @blur="checkEmail()"
                 />
@@ -69,6 +69,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "AdminSingIn",
   data() {
@@ -77,16 +78,16 @@ export default {
       checkPasswordInput: "",
       check: false,
       password: "",
-      name: "",
+      email: "",
     };
   },
   components: {},
   methods: {
     checkEmail() {
       if (
-        !this.name.includes("@") ||
-        !this.name.includes(".") ||
-        this.name === null
+        !this.email.includes("@") ||
+        !this.email.includes(".") ||
+        this.email === null
       ) {
         this.checkEmailInput = false;
         return;
@@ -103,13 +104,36 @@ export default {
     submitData() {
       this.checkPassword();
       this.checkEmail();
-      if (!this.checkEmailInput) {
-        return;
-      }
-      if (!this.checkPasswordInput) {
-        return;
-      }
+      if (!this.checkEmailInput) return;
+      if (!this.checkPasswordInput) return;
       this.check = !this.check;
+      axios
+        .post("http://localhost:3000/com-data", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((response) => {
+          this.check = !this.check;
+          if (
+            response.data instanceof Object &&
+            Object.entries(response.data).length
+          ) {
+            if (Object.hasOwn(response.data, "message")) {
+              this.checkEmailInput = !this.checkEmailInput;
+              this.checkPasswordInput = !this.checkPasswordInput;
+              console.log(response.data);
+              return;
+            }
+            if (Object.hasOwn(response.data, "_name")) {
+              localStorage.setItem("admin", JSON.stringify(response.data));
+              this.$router.push("/dachboard")
+            }
+          }
+        })
+        .catch((error) => {
+          this.check = !this.check;
+          console.log(error);
+        });
     },
     printClass(nameValue) {
       if (nameValue === "") return "";
@@ -192,7 +216,7 @@ button.check {
 }
 button::after {
   content: attr(data-name);
-  font-size:16px;
+  font-size: 16px;
   text-transform: capitalize;
 }
 button:disabled:after,
