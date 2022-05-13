@@ -13,6 +13,8 @@ import SelectTypeApplication from "../components/ApplicationRI/SelectTypeApplica
 import UploadCv from "../components/ApplicationRI/UploadCv.vue"
 import AdminSingIn from "../admin/SingIn.vue"
 import Dachboard from "../admin/Dach.vue"
+import AddedCategory from "../admin/AddedCategory.vue"
+import ManagementCategories from "../admin/ManagementCategories.vue"
 
 Vue.use(VueRouter);
 
@@ -147,7 +149,7 @@ const routes = [
     name: "AdminSingIn",
     component: AdminSingIn,
     meta: {
-      header: 2
+      header: 0
 
     }
   },
@@ -158,6 +160,22 @@ const routes = [
     meta: {
       header: 2
 
+    }
+  },
+  {
+    path: "/added-category",
+    name: "AddedCategory",
+    component: AddedCategory,
+    meta: {
+      header: 2
+    }
+  },
+  {
+    path: "/management-categories",
+    name: "ManagementCategories",
+    component: ManagementCategories,
+    meta: {
+      header: 2,
     }
   }
 
