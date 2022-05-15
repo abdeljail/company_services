@@ -171,9 +171,10 @@ const routes = [
     }
   },
   {
-    path: "/management-categories",
+    path: "/management-categories/:search?",
     name: "ManagementCategories",
     component: ManagementCategories,
+    props: (route) => ({ search: route.params.search || '' }),
     meta: {
       header: 2,
     }
