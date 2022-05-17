@@ -15,7 +15,9 @@ import AdminSingIn from "../admin/SingIn.vue"
 import Dachboard from "../admin/Dach.vue"
 import AddedCategory from "../admin/AddedCategory.vue"
 import ManagementCategories from "../admin/ManagementCategories.vue"
-
+import EditCategory from "../admin/EditCategory.vue"
+import AddFormation from "../admin/formation/add.vue"
+import NotFound404 from "../errors/404.vue"
 Vue.use(VueRouter);
 
 const routes = [
@@ -178,10 +180,44 @@ const routes = [
     meta: {
       header: 2,
     }
+  },
+  {
+    path: "/edit-category/:id(\\d+)/:name/",
+    name: "EditCategory",
+    component: EditCategory,
+    meta: {
+      header: 2,
+    }
+  },
+
+
+
+  // fromation
+
+  {
+    path: "/formation/add",
+    name: "AddFormation",
+    component: AddFormation,
+    meta: {
+      header: 2
+    }
+  },
+
+
+
+
+  /// pages not found 
+
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: NotFound404,
   }
 
 
+
 ];
+
 
 const router = new VueRouter({
   mode: "history",
