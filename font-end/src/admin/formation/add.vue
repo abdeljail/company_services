@@ -2,7 +2,7 @@
   <div class="AddedTraining">
     <SectionUnder heading="Added Formation" />
     <b-container>
-      <LinkChangeM link="/management-categories/" name="management formation" />
+      <LinkChangeM link="/formation/management-formation/" name="management formation" />
       <div class="form-data">
         <div
           v-if="Boolean(categories)"
