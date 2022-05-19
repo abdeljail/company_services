@@ -15,6 +15,7 @@ import AdminSingIn from "../admin/SingIn.vue"
 import Dachboard from "../admin/Dach.vue"
 import AddedCategory from "../admin/AddedCategory.vue"
 import ManagementCategories from "../admin/ManagementCategories.vue"
+import ManagementFormation from "../admin/formation/ManagementFormation.vue"
 import EditCategory from "../admin/EditCategory.vue"
 import AddFormation from "../admin/formation/add.vue"
 import NotFound404 from "../errors/404.vue"
@@ -200,6 +201,15 @@ const routes = [
     component: AddFormation,
     meta: {
       header: 2
+    }
+  },
+  {
+    path: "/formation/management-formation/:search?",
+    name: "ManagementFormation",
+    component: ManagementFormation,
+    props: (route) => ({ search: route.params.search || '' }),
+    meta: {
+      header: 2,
     }
   },
 
