@@ -28,9 +28,55 @@
         :class="check ? ' d-block ' : 'd-none'"
         class="content-body py-3 px-4"
       >
+        <div v-if="getCountChildernItem">
+          <div
+            class="py-2 date d-flex justify-content-between align-items-center"
+          >
+            <p class="m-0 font-weight-bold text-capitalize">name formation :</p>
+            <p class="m-0 text-capitalize">
+              {{ item._name }}
+            </p>
+          </div>
+          <div class="py-2 date">
+            <p class="m-0 font-weight-bold text-capitalize">
+              description formation :
+            </p>
+            <div
+              v-html="item._description"
+              class="py-2 m-0 text-capitalize"
+            ></div>
+          </div>
+          <div class="py-2 date">
+            <p class="m-0 font-weight-bold text-capitalize">
+              description formation :
+            </p>
+            <div v-html="item._Goals" class="py-2 m-0 text-capitalize"></div>
+          </div>
+          <div
+            class="py-2 date d-flex justify-content-start align-items-center"
+          >
+            <p class="m-0 font-weight-bold text-capitalize">
+              image formation :
+            </p>
+            <div class="py-2 m-0 text-capitalize">
+              <img
+                class="border border-3 rounded"
+                :src="`http://localhost:3000/uploads/images/${item._image}`"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="py-2 date d-flex justify-content-between align-items-center"
+        >
+          <p class="m-0 font-weight-bold text-capitalize">name categoty :</p>
+          <p class="text-capitalize  m-0 py-2 px-3 bg-black border rounded text-white">
+            {{ item.nameCat }}
+          </p>
+        </div>
         <div class="date d-flex justify-content-between align-items-center">
           <p class="m-0 font-weight-bold text-capitalize">
-            date create category :
+            date create formation :
           </p>
           <p class="m-0">
             <time :datetime="item._dateCreate">{{ item._dateCreate }}</time>
@@ -39,13 +85,18 @@
       </div>
       <div class="content-footer py-3 px-4 text-end">
         <button
-          @click="$emit('edit', item._idCat)"
+          @click="$emit('edit', getCountChildernItem ? item._idF : item.idCat)"
           class="mx-3 text-capitalize text-white border-0 btn"
         >
           edit
         </button>
         <button
-          @click="$emit('delete', [item._name, item._idCat])"
+          @click="
+            $emit('delete', [
+              item._name,
+              getCountChildernItem ? item._idF : item.idCat,
+            ])
+          "
           class="text-capitalize text-white border-0 btn"
         >
           delete
@@ -74,6 +125,11 @@ export default {
     this.item._dateCreate = this.item._dateCreate
       .replace("T", " ")
       .replace(".000Z", "");
+  },
+  computed: {
+    getCountChildernItem() {
+      return Object.keys(this.item).length === 7;
+    },
   },
 };
 </script>

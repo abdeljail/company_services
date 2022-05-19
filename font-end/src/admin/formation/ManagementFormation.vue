@@ -1,61 +1,61 @@
 <template>
-  <div class="ManagementCategories pb-5">
+  <div class="ManagementFormation pb-5">
     <SectionUnder
-      heading="management categories"
-      para="Our knowledge base is here to help. Find a Category"
-      @searchCategory="searchCategory"
+      heading="management formation"
+      para="Our knowledge base is here to help. Find a Formation"
+      @searchCategory="searchFormation"
     />
-    <div class="content-ManagementCategories">
+    <div class="content-Managementformation">
       <div>
-        <H2Button heading="management categories" :objLink="objLink" />
+        <H2Button heading="management formation" :objLink="objLink" />
       </div>
       <div>
         <b-container>
           <LaptopFlex
             :show="isShow"
-            typeItems="categories"
-            :countItems="getCategory.length"
+            typeItems="formation"
+            :countItems="getFormation.length"
             @changeLayout="Layout"
           />
         </b-container>
       </div>
-      <div class="categories">
+      <div class="formation">
         <div
           v-if="!loading"
           class="loading d-flex align-items-center justify-content-center"
         >
           <span class="border border-5 rounded-circle"></span>
         </div>
-        <div v-else class="content-categories">
+        <div v-else class="content-formation">
           <b-container>
             <div
-              class="box-category py-3"
+              class="box-Formation py-3"
               :class="
                 !isShow
-                  ? 'flex-wrap  d-flex align-items-center justify-content-center'
+                  ? 'flex-wrap d-flex align-items-start justify-content-center'
                   : ''
               "
             >
-              <div v-if="getCategory.length === 0">
-                <MessageSeach name="Category" />
+              <div v-if="getFormation.length === 0">
+                <MessageSeach name="Formation" />
               </div>
               <Item
-                v-for="(category, idx) in getCategory"
+                v-for="(Formation, idx) in getFormation"
                 :key="idx"
-                :item="category"
-                @edit="editCategory"
-                @delete="deleteCategory"
+                :item="Formation"
+                @edit="editFormation"
+                @delete="deleteFormation"
                 :class="!isShow ? 'w-l mx-1' : ''"
               />
             </div>
             <div
               v-if="!checkLimt"
-              :class="getCategory.length === 0 ? 'd-none' : ''"
+              :class="getFormation.length === 0 ? 'd-none' : ''"
             >
               <BtnSowMore
-                @show="showMoreCategory"
+                @show="showMoreFormation"
                 :loading="getLoading"
-                :data-number-show="getCategory.at(-1)._idCat"
+                :data-number-show="getFormation.at(-1)._idF"
               />
             </div>
           </b-container>
@@ -79,24 +79,24 @@ import Item from "@/components/admin/global/Items.vue";
 import BtnSowMore from "@/components/admin/global/BtnSowMore.vue";
 import Message from "@/components/admin/global/Message.vue";
 export default {
-  name: "ManagementCategories",
+  name: "ManagementFormation",
   data() {
     return {
-      categories: [],
+      formation: [],
       loading: false,
       loadingShow: false,
       searchInput: "",
       checkLimt: false,
       isShow: true,
       objLink: {
-        nameLink: "add category",
-        pathLink: "/added-category",
+        nameLink: "add formation",
+        pathLink: "../add",
       },
       passedInfoItem: {
         id: undefined,
         name: "",
-        heading: "category",
-        pathDrop: "category/delete/",
+        heading: "Formation",
+        pathDrop: "formation/delete/",
       },
     };
   },
@@ -116,10 +116,10 @@ export default {
   },
   created() {
     {
-      this.fetchCategories("http://localhost:3000/all-categories")
+      this.fetchformation("http://localhost:3000/formation/all-formation")
         .then((response) => {
           this.loading = !this.loading;
-          this.categories = response.data.categories;
+          this.formation = response.data.formations;
         })
         .catch((error) => {
           this.loading = !this.loading;
@@ -128,66 +128,71 @@ export default {
     }
   },
   methods: {
-    fetchCategories(url) {
+    fetchformation(url) {
       return axios({
         method: "get",
         url: url,
       });
     },
-    searchCategory(search) {
-      console.log(search);
-      if (this.getCategory.length == this.categories.length && search == "")
+    searchFormation(search) {
+      if (this.getFormation.length == this.formation.length && search == "")
         return;
       this.$router.push(`./${search}`);
       this.searchInput = search;
-      if (Boolean(this.getCategory.length)) return;
+      if (Boolean(this.getFormation.length)) return;
       this.loading = !this.loading;
-      this.fetchCategories(`http://localhost:3000/one-category/${search} `)
+      this.fetchformation(
+        `http://localhost:3000/formation/one-formation/${search} `
+      )
         .then((response) => {
           this.loading = !this.loading;
-          if (!Boolean(response.data.categories.length)) return;
-          this.categories.push(response.data.categories[0]);
+          if (!Boolean(response.data.formation.length)) return;
+          this.formation.push(response.data.formation[0]);
         })
         .catch((error) => {
           console.error(error);
         });
     },
-    showMoreCategory(number) {
+    showMoreFormation(number) {
+
+console.log(number)
+
       if (this.searchInput !== "") this.searchInput = "";
       this.loadingShow = !this.loadingShow;
-      this.fetchCategories(`http://localhost:3000/all-categories/${number} `)
+      this.fetchformation(`http://localhost:3000/formation/all-formation/${number} `)
         .then((response) => {
-          if (!Boolean(response.data.categories.length))
+          console.log(response.data.formation)
+          if (!Boolean(response.data.formation.length))
             return (this.checkLimt = !this.checkLimt);
           this.loadingShow = !this.loadingShow;
-          this.categories = [...this.categories, ...response.data.categories];
+          this.formation = [...this.formation, ...response.data.formation];
         })
         .catch((error) => {
           console.error(error);
         });
     },
-    editCategory(id) {
-      for (let i = 0; i < this.categories.length; i++) {
-        if (this.categories[i]._idCat === id) {
-          localStorage.setItem("editCategoryName", this.categories[i]._name);
-          localStorage.setItem("editCategoryId", this.categories[i]._idCat);
+    editFormation(id) {
+      for (let i = 0; i < this.formation.length; i++) {
+        if (this.formation[i]._idF === id) {
+          localStorage.setItem("editFormationName", this.formation[i]._name);
+          localStorage.setItem("editFormationId", this.formation[i]._idCat);
           this.$router.push(
-            `/edit-category/${this.categories[i]._idCat}/${this.categories[i]._name}`
+            `../edit-Formation/${this.formation[i]._idF}/${this.formation[i]._name}`
           );
           break;
         }
       }
     },
-    deleteCategory([name, id]) {
+    deleteFormation([name, id]) {
       document.getElementById("model").classList.add("overly");
       this.passedInfoItem.id = id;
       this.passedInfoItem.name = name;
     },
     deleteItem(id) {
-      this.categories = this.categories.filter(
-        ({ _idCat }, idx) => _idCat !== id
+      this.formation = this.formation.filter(
+        ({ _idF }, idx) => _idF !== id
       );
-      console.log(this.categories);
+      console.log(this.formation);
       this.passedInfoItem.id = undefined;
       this.passedInfoItem.name = "";
     },
@@ -197,13 +202,13 @@ export default {
     },
   },
   computed: {
-    getCategory() {
-      return this.categories.filter((cats) => {
+    getFormation() {
+      return this.formation.filter((cats) => {
         return cats._name.match(new RegExp(this.searchInput, "i"));
       });
     },
     getNumberShow() {
-      return this.categories.length;
+      return this.formation.length;
     },
     getLoading() {
       return this.loadingShow;

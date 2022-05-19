@@ -11,7 +11,6 @@
             size="sm"
             class="py-3 border-0"
             placeholder="Search in Category"
-            @keyup="$emit('searchCategory', search)"
             v-model="search"
             ref="input"
             id="searchCategory"
@@ -63,6 +62,11 @@ export default {
       type: String,
     },
   },
+  watch:{
+    search(value){
+      this.$emit('searchCategory', value)
+    }
+  }
 };
 </script>
 
