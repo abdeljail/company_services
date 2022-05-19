@@ -13,4 +13,5 @@ font-end/src/components/admin/global/Aside.vue
 font-end/src/helpers/
 backEnd/mysqlCommand/
 backEnd/server.js
+font-end/.env
 backEnd/uploads/
