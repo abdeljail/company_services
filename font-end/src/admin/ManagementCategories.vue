@@ -55,7 +55,7 @@
               <BtnSowMore
                 @show="showMoreCategory"
                 :loading="getLoading"
-                :data-number-show="getNumberShow"
+                :data-number-show="getCategory.at(-1)._idCat"
               />
             </div>
           </b-container>
