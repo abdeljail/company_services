@@ -96,7 +96,7 @@ export default {
       this.name = "";
       document.getElementById("model").classList.remove("overly");
     },
-    dropItem() {
+    dropItem() {   
       this.loading = !this.loading;
       axios
         .post(`http://localhost:3000/${this.infoItem.pathDrop}`, {
