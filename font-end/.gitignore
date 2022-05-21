@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
-./dist
-./helpres
+dist
+./src/helpres
 
 # local env files
 .env.local
