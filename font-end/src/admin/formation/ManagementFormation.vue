@@ -55,7 +55,9 @@
               <BtnSowMore
                 @show="showMoreFormation"
                 :loading="getLoading"
-                :data-number-show="getFormation.at(-1)._idF"
+                :data-number-show="
+                  getFormation.length != 0 ? getFormation.at(-1)._idF : ''
+                "
               />
             </div>
           </b-container>
@@ -120,6 +122,7 @@ export default {
         .then((response) => {
           this.loading = !this.loading;
           this.formation = response.data.formations;
+          console.log(this.formation + "thidi di di d ");
         })
         .catch((error) => {
           this.loading = !this.loading;
@@ -154,14 +157,15 @@ export default {
         });
     },
     showMoreFormation(number) {
-
-console.log(number)
+      console.log(number);
 
       if (this.searchInput !== "") this.searchInput = "";
       this.loadingShow = !this.loadingShow;
-      this.fetchformation(`http://localhost:3000/formation/all-formation/${number} `)
+      this.fetchformation(
+        `http://localhost:3000/formation/all-formation/${number} `
+      )
         .then((response) => {
-          console.log(response.data.formation)
+          console.log(response.data.formation);
           if (!Boolean(response.data.formation.length))
             return (this.checkLimt = !this.checkLimt);
           this.loadingShow = !this.loadingShow;
@@ -175,9 +179,16 @@ console.log(number)
       for (let i = 0; i < this.formation.length; i++) {
         if (this.formation[i]._idF === id) {
           localStorage.setItem("editFormationName", this.formation[i]._name);
-          localStorage.setItem("editFormationId", this.formation[i]._idCat);
+          localStorage.setItem("editFormationId", this.formation[i]._idF);
+          localStorage.setItem(
+            "editFormationDescription",
+            this.formation[i]._description
+          );
+          localStorage.setItem("editFormationGoals", this.formation[i]._Goals);
+          localStorage.setItem("editFormationImage", this.formation[i]._image);
+          localStorage.setItem("editFormationCat", this.formation[i].nameCat);
           this.$router.push(
-            `../edit-Formation/${this.formation[i]._idF}/${this.formation[i]._name}`
+            `../edit/${this.formation[i]._idF}/${this.formation[i]._name}`
           );
           break;
         }
@@ -189,9 +200,7 @@ console.log(number)
       this.passedInfoItem.name = name;
     },
     deleteItem(id) {
-      this.formation = this.formation.filter(
-        ({ _idF }, idx) => _idF !== id
-      );
+      this.formation = this.formation.filter(({ _idF }, idx) => _idF !== id);
       console.log(this.formation);
       this.passedInfoItem.id = undefined;
       this.passedInfoItem.name = "";
@@ -203,6 +212,8 @@ console.log(number)
   },
   computed: {
     getFormation() {
+      console.log(this.formation);
+      return this.formation;
       return this.formation.filter((cats) => {
         return cats._name.match(new RegExp(this.searchInput, "i"));
       });
