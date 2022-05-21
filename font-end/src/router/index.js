@@ -18,6 +18,7 @@ import ManagementCategories from "../admin/ManagementCategories.vue"
 import ManagementFormation from "../admin/formation/ManagementFormation.vue"
 import EditCategory from "../admin/EditCategory.vue"
 import AddFormation from "../admin/formation/add.vue"
+import EditFormation from "../admin/formation/edit.vue"
 import NotFound404 from "../errors/404.vue"
 Vue.use(VueRouter);
 
@@ -212,7 +213,14 @@ const routes = [
       header: 2,
     }
   },
-
+  {
+    path: "/formation/edit/:id(\\d+)/:name/",
+    name: "EditFormation",
+    component: EditFormation,
+    meta: {
+      header: 2,
+    }
+  },
 
 
 
