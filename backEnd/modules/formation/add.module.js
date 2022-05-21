@@ -40,9 +40,6 @@ exports.addFormation = ({ nameFormation, description, goals, image, idCategory }
     return new Promise((resolve, reject) => {
 
 
-        return resolve({ message: typeof goals })
-
-
         const connection = connect.conDB()
 
         connection.connect((err) => {
