@@ -109,6 +109,12 @@
               </div>
             </div>
           </form>
+          <div
+            v-if="Boolean(Object.keys(this.objAlert).length)"
+            class="res-alert position-relative"
+          >
+            <Alert @emptyObjAlert="emptyObjAlert" :objAlert="objAlert" />
+          </div>
         </div>
       </b-container>
     </div>
@@ -147,8 +153,10 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 import SectionUnderHeader from "../components/global/SectionUnderHeader.vue";
 import PackInfo from "../components/Contact/PackInfo.vue";
+import Alert from "../components/global/alert.vue";
 import GoogleMap from "../components/global/GoogleMap.vue";
 export default {
   name: "ContactUs",
@@ -165,15 +173,58 @@ export default {
       object: "",
       name: "",
       message: "",
+      objAlert: {},
     };
   },
   components: {
     SectionUnderHeader,
     PackInfo,
     GoogleMap,
+    Alert,
   },
   watch: {},
   methods: {
+    submitData() {
+      this.checkFristName();
+      this.checkLastName();
+      this.checkObject();
+      this.checkEmail();
+      this.checkMessage();
+      if (!this.checkEmailInput) {
+        return;
+      }
+      if (!this.checkObjectInput) {
+        return;
+      }
+      this.check = !this.check;
+      axios
+        .post("http://localhost:3000/contact-us/", {
+          fullName: this.FristName + "-" + this.LastName,
+          email: this.name,
+          password: this.password,
+          object: this.object,
+          message: this.message,
+        })
+        .then((response) => {
+          this.check = !this.check;
+          this.FristName = "";
+          this.LastName = "";
+          this.name = "";
+          this.password = "";
+          this.object = "";
+          this.message = "";
+          if (response.data.message) {
+            this.objAlert.nameClass = "alert-success";
+            return (this.objAlert.message = "message added successfully");
+          }
+          this.objAlert.nameClass = "alert-warning";
+          this.objAlert.message = "This item exists";
+        })
+        .catch((error) => {
+          this.check = !this.check;
+          console.log(error);
+        });
+    },
     checkFristName() {
       if (this.FristName === "" || this.FristName.length <= 4) {
         this.checkFristNameInput = false;
@@ -213,26 +264,13 @@ export default {
       }
       this.checkObjectInput = true;
     },
-    submitData() {
-      this.checkFristName();
-      this.checkLastName();
-      this.checkObject();
-      this.checkEmail();
-
-      this.checkMessage();
-      if (!this.checkEmailInput) {
-        return;
-      }
-      if (!this.checkObjectInput) {
-        return;
-      }
-
-      this.check = !this.check;
-    },
     printClass(nameValue) {
       if (nameValue === "") return "";
       if (nameValue) return "sec-input";
       return "err-input";
+    },
+    emptyObjAlert() {
+      this.objAlert = {};
     },
   },
 };
@@ -330,7 +368,7 @@ button.check:after {
 }
 
 @media (max-width: 430px) {
-  .form-contact-us{
+  .form-contact-us {
     padding: 0 !important;
   }
 }
