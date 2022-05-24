@@ -83,11 +83,7 @@
                 <label class="position-absolute" for="password">Password</label>
               </div>
             </div>
-            <div class="pb-2 text-end">
-              <router-link to="/" class="text-decoration-none text-capitalise"
-                >forget your password</router-link
-              >
-            </div>
+            <div class="pb-2 text-end"></div>
           </div>
           <div class="footer pt-3">
             <div class="pt-3">
@@ -118,10 +114,18 @@
           </div>
         </form>
       </div>
+      <div
+        v-if="Boolean(Object.keys(this.objAlert).length)"
+        class="res-alert position-relative"
+      >
+        <Alert @emptyObjAlert="emptyObjAlert" :objAlert="objAlert" />
+      </div>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
+import Alert from "../components/global/alert.vue";
 export default {
   name: "SingUp",
   data() {
@@ -135,10 +139,54 @@ export default {
       LastName: "",
       password: "",
       name: "",
+      objAlert: {},
     };
   },
-  components: {},
+  components: {
+    Alert,
+  },
   methods: {
+    submitData() {
+      this.checkFristName();
+      this.checkLastName();
+      this.checkPassword();
+      this.checkEmail();
+      if (!this.checkEmailInput) {
+        return;
+      }
+      if (!this.checkPasswordInput) {
+        return;
+      }
+
+      this.check = !this.check;
+
+      axios
+        .post("http://localhost:3000/create-client/", {
+          fullName: this.FristName + "-" + this.LastName,
+          email: this.name,
+          password: this.password,
+        })
+        .then((response) => {
+          this.FristName = "";
+          this.LastName = "";
+          this.name = "";
+          this.password = "";
+          this.check = !this.check;
+          if (response.data.message) {
+            setTimeout(()=>{
+              this.$router.push("/")
+            },1000)
+            this.objAlert.nameClass = "alert-success";
+            return (this.objAlert.message = "Compte  added successfully");
+          }
+          this.objAlert.nameClass = "alert-warning";
+          this.objAlert.message = "This Compte exists";
+        })
+        .catch((error) => {
+          this.check = !this.check;
+          console.log(error);
+        });
+    },
     checkFristName() {
       if (this.FristName === "" || this.FristName.length <= 4) {
         this.checkFristNameInput = false;
@@ -171,24 +219,13 @@ export default {
       }
       this.checkPasswordInput = true;
     },
-    submitData() {
-      this.checkFristName();
-      this.checkLastName();
-      this.checkPassword();
-      this.checkEmail();
-      if (!this.checkEmailInput) {
-        return;
-      }
-      if (!this.checkPasswordInput) {
-        return;
-      }
-
-      this.check = !this.check;
-    },
     printClass(nameValue) {
       if (nameValue === "") return "";
       if (nameValue) return "sec-input";
       return "err-input";
+    },
+    emptyObjAlert() {
+      this.objAlert = {};
     },
   },
 };
