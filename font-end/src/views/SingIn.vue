@@ -87,10 +87,18 @@
           </div>
         </form>
       </div>
+      <div
+        v-if="Boolean(Object.keys(this.objAlert).length)"
+        class="res-alert position-relative"
+      >
+        <Alert @emptyObjAlert="emptyObjAlert" :objAlert="objAlert" />
+      </div>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
+import Alert from "../components/global/alert.vue";
 export default {
   name: "SingIn",
   data() {
@@ -100,10 +108,60 @@ export default {
       check: false,
       password: "",
       name: "",
+      objAlert: {},
     };
   },
-  components: {},
+  components: {
+    Alert,
+  },
+
   methods: {
+    fetchCategories(url) {
+      return axios({
+        method: "get",
+        url: url,
+      });
+    },
+    submitData() {
+      this.checkPassword();
+      this.checkEmail();
+      if (!this.checkEmailInput) {
+        return;
+      }
+      if (!this.checkPasswordInput) {
+        return;
+      }
+      this.check = !this.check;
+      axios
+        .post("http://localhost:3000/login-client/", {
+          email: this.name,
+          password: this.password,
+        })
+        .then((response) => {
+          this.name = "";
+          this.password = "";
+          this.check = !this.check;
+          console.log(response.data.hasOwnProperty("_IdC"));
+          if (response.data.hasOwnProperty("_IdC")) {
+            localStorage.setItem("clientId", response.data._IdC);
+            localStorage.setItem("clientName", response.data._name);
+            localStorage.setItem("clientId", response.data._IdC);
+            localStorage.setItem("clientImage", response.data._image);
+            localStorage.setItem("clientEmail", response.data._email);
+            setTimeout(() => {
+              this.$router.push("/");
+            });
+            this.objAlert.nameClass = "alert-success";
+            return (this.objAlert.message = "login is  successfully");
+          }
+          this.objAlert.nameClass = "alert-warning";
+          this.objAlert.message = "This Compte not exists";
+        })
+        .catch((error) => {
+          this.check = !this.check;
+          console.log(error);
+        });
+    },
     checkEmail() {
       if (
         !this.name.includes("@") ||
@@ -122,22 +180,13 @@ export default {
       }
       this.checkPasswordInput = true;
     },
-    submitData() {
-      this.checkPassword();
-      this.checkEmail();
-      if (!this.checkEmailInput) {
-        return;
-      }
-      if (!this.checkPasswordInput) {
-        return;
-      }
-
-      this.check = !this.check;
-    },
     printClass(nameValue) {
       if (nameValue === "") return "";
       if (nameValue) return "sec-input";
       return "err-input";
+    },
+    emptyObjAlert() {
+      this.objAlert = {};
     },
   },
 };
