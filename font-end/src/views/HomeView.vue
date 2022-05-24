@@ -185,6 +185,7 @@ export default {
     NouvelleFormation,
     GoogleMap,
   },
+  methods: {},
 };
 </script>
 <style scoped>
