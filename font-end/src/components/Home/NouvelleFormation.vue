@@ -19,15 +19,15 @@
         <span class="rounded-circle d-blobk"></span>
       </div>
       <b-container class="p-5 d-flex justify-content-center flex-wrap">
-        <div class="p-2" :key="idx" v-for="(btn, idx) in categorys">
+        <div class="p-2" :key="idx" v-for="(btn, idx) in categories">
           <b-button
-            :class="idx === 0 ? 'active' : ''"
-            @click="ActiveClass(idx)"
-            :data-btn="btn"
+            :class="idx === 0 ? 'btn active' : 'btn'"
+            @click="ActiveClass(idx, btn._idCat)"
+            :data-btn="btn._idCat"
             :data-click="0"
             ref="button"
           >
-            {{ btn }}
+            {{ btn._name }}
           </b-button>
         </div>
       </b-container>
@@ -47,7 +47,8 @@
           h-100
           bg-light
         "
-        v-if="loadingData"
+        :data="loadingData"
+        v-if="!loadingData"
       >
         <span class="rounded-circle d-blobk"></span>
       </div>
@@ -75,6 +76,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import PackH1ParaImg from "@/components/global/PackH1ParaImg.vue";
 export default {
   name: "NouvelleFormation",
@@ -85,14 +87,7 @@ export default {
       checkLoad: false,
       checkLoadBtns: false,
       elementCom: this.$el,
-      categorys: [
-        "Categorys 1 ",
-        "Categorys 2 ",
-        "Categorys 3 ",
-        "Categorys 45 ",
-        "Categorys 7 ",
-        "Categorys 5 ",
-      ],
+      categories: [],
       nouvelleFormation: [
         {
           nameFormation: "abdeljalil 1",
@@ -142,19 +137,42 @@ export default {
   mounted() {},
   watch: {},
   methods: {
-    ActiveClass(idx) {
+    fetch(url) {
+      return axios({
+        method: "get",
+        url: url,
+      });
+    },
+    ActiveClass(idx, idCat) {
       if (this.$refs.button[idx].classList.contains("active")) return;
-      document.querySelector(".active").classList.remove("active");
+      document.querySelector(".btn.active").classList.remove("active");
       this.$refs.button[idx].classList.add("active");
-      this.loadingData = !this.loadingData;
-      console.log(this.loadingData);
       this.fetchDataFormation(this.$refs.button[idx].dataset.btn, idx);
     },
-    fetchDataFormation(idCat, idx) {
-      this.loadingData = !this.loadingData;
+    fetchDataFormation(idCat) {
+      console.log(idCat);
+      this.loadingData = false;
+      console.log(this.loadingData);
+      this.fetch("http://localhost:3000/formation/all-formation")
+        .then((response) => {
+          console.log(response.data);
+          this.loadingData = true;
+        })
+        .catch((error) => {
+          this.loading = true;
+          console.error(error);
+        });
     },
-    fetchDataCategorys(idCat, idx) {
-      this.loadingDataBtns = !this.loadingDataBtns;
+    fetchDataCategorys() {
+      this.fetch("http://localhost:3000/all-categories")
+        .then((response) => {
+          this.categories = response.data.categories;
+          this.loadingDataBtns = !this.loadingDataBtns;
+        })
+        .catch((error) => {
+          this.loadingDataBtns = !this.loadingDataBtns;
+          console.error(error);
+        });
     },
   },
   computed: {
@@ -168,15 +186,15 @@ export default {
       window.addEventListener("scroll", () => {
         if (this.checkLoadBtns) return;
         if (window.scrollY >= this.$el.offsetTop - 400) {
-          this.fetchDataCategorys(this.$refs.button[0].dataset.btn, 0);
+          this.fetchDataCategorys();
           this.checkLoadBtns = !this.checkLoadBtns;
         }
       });
       window.addEventListener("scroll", () => {
         if (this.checkLoad) return;
         if (window.scrollY >= this.$el.offsetTop) {
-          this.fetchDataFormation(this.$refs.button[0].dataset.btn, 0);
-          // console.log(this.$refs.button[0].dataset.btn);
+          let i = this.$refs.button[0].dataset.btn;
+          this.fetchDataFormation(i);
           this.checkLoad = !this.checkLoad;
         }
       });
