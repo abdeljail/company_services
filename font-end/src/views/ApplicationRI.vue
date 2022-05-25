@@ -38,6 +38,9 @@ export default {
   },
   created() {},
   methods: {
+    backRoute() {
+      this.$router.go(-1);
+    },
   },
 };
 </script>
