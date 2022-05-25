@@ -50,9 +50,12 @@ export default {
   data() {
     return {};
   },
+  created() {},
   mounted() {},
   methods: {
     send(e) {
+      if (localStorage.getItem("clientId") === null)
+        return this.$router.push(`/sing-in`);
       this.$router.push(
         `/application-r-i/${e.currentTarget.dataset.application}`
       );
