@@ -12,7 +12,6 @@
     "
   >
     <div
-      @click="sendData($event)"
       data-application="employment"
       class="employment w-100 overflow-hidden rounded"
     >
@@ -67,8 +66,8 @@
           class="d-flex align-content-center justify-content-center"
         >
           <b-button
-
             :class="send ? 'send' : ''"
+            @click="sendData($event)"
             class="
               position-relative
               btn-send
@@ -88,15 +87,18 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "SelectTypeApplication",
   data() {
     return {
       image: "",
       send: false,
+      file: "",
     };
   },
   created() {
+    console.log();
   },
   mounted() {},
   methods: {
@@ -112,15 +114,36 @@ export default {
       if (!file.type.match("image.*") && !file.type.match("application/pdf")) {
         return;
       }
+      this.file = file;
       let reader = new FileReader();
       reader.onload = (event) => (this.image = event.target.result);
       reader.readAsDataURL(file);
     },
     remove(e) {
-      e.preventDefault()
       this.image = "";
+      this.file = "";
+      e.preventDefault();
     },
-    sendData(e) {},
+    sendData(e) {
+      this.send = !this.send;
+      let formData = new FormData();
+      formData.append("type", this.$route.path.split("/").at(-1));
+      formData.append("file", this.file);
+      formData.append("idC", localStorage.getItem("clientId"));
+      axios
+        .post("http://localhost:3000/application/add-application", formData)
+        .then((response) => {
+          this.send = !this.send;
+          console.log(response);
+          if (response.data.message) {
+            this.$router.push("/respanse-application/");
+          }
+        })
+        .catch((error) => {
+          this.send = !this.send;
+          console.log(error);
+        });
+    },
   },
 };
 </script>
