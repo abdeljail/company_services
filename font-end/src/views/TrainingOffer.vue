@@ -66,13 +66,13 @@
                 <div>
                   <img
                     class="rounded"
-                    :src="require(`@/assets/images/${packFormation.srcImage}`)"
+                    :src="`http://localhost:3000/uploads/images/${packFormation._image}`"
                     alt="image Nouvelle Formation "
                   />
                 </div>
                 <div class="py-3">
                   <h4 class="text-capitalize text-white text-center">
-                    {{ packFormation.nameFormation }}
+                    {{ packFormation._name }}
                   </h4>
                 </div>
                 <div
@@ -83,12 +83,14 @@
                     justify-content-sm-between justify-content-between
                   "
                 >
-                  <b-button id class="btns border border-2 my-2 p-2"
+                  <b-button
+                    @click="reservation($event, packFormation._idF)"
+                    class="btns border border-2 my-2 p-2"
                     >Reservation</b-button
                   >
                   <b-button
                     data-id_formation="packFormation.id"
-                    @click="showDetails($event)"
+                    @click="showDetails($event, packFormation._idF)"
                     class="btns border-0 my-2 p-2"
                     >Details</b-button
                   >
@@ -126,8 +128,8 @@
         </div>
         <div
           v-if="checkLoadDetails"
-          class=" position-relative"
-          style="height: 511px ;"
+          class="position-relative"
+          style="height: 511px"
         >
           <div
             class="
@@ -148,30 +150,30 @@
             <b-col>
               <div class="img w-100">
                 <img
-                  :src="require('@/assets/images/local.png')"
+                  :src="`http://localhost:3000/uploads/images/${details._image}`"
                   alt="image rormation details"
                 />
               </div>
             </b-col>
             <b-col>
               <div class="py-4 name-foramtion">
-                <h3>fkahbkjfhbkjhkjfhbkjfdhkj</h3>
-                <ul>
-                  <li>dddd dd</li>
-                  <li>d ddddd</li>
-                  <li>d dddd</li>
-                  <li>dddd ddd</li>
-                  <li>ddddddddddddd</li>
-                </ul>
+                <h3>{{ details._name }}</h3>
+                <p>
+                  <time :datetime="details._dateCreate">{{
+                    details._dateCreate
+                  }}</time>
+                </p>
+                <div>
+                  <span> catregoryf </span>
+                  <strong>
+                    {{ details.nameCat }}
+                  </strong>
+                </div>
               </div>
             </b-col>
           </b-row>
-          <div class="py-5">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis,
-            recusandae dolores modi nihil eius natus labore accusantium unde
-            dicta nisi expedita. Molestias culpa, velit aut corrupti delectus
-            soluta rerum in!
-          </div>
+          <div class="py-5" v-html="details._description"></div>
+          <div class="py-5" v-html="details._Goals"></div>
         </div>
       </b-container>
     </section>
@@ -181,6 +183,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 import SectionUnderHeader from "../components/global/SectionUnderHeader.vue";
 import PackH1ParaImg from "@/components/global/PackH1ParaImg.vue";
 import ContactUs from "../components/global/ContactUs.vue";
@@ -192,6 +195,7 @@ export default {
       checkLoad: false,
       nouvelleFormation: null,
       isShowDetails: false,
+      details: {},
       SumFromation: [],
     };
   },
@@ -205,12 +209,42 @@ export default {
   },
   watch: {},
   methods: {
-    showDetails(event) {
+    fetch(url) {
+      return axios({
+        method: "get",
+        url: url,
+      });
+    },
+    reservation(event, idF) {
+      if (localStorage.getItem("clientId") === null)
+        return this.$router.push("/sing-in");
+      axios
+        .post("http://localhost:3000/training-offer/add-training", {
+          idC: +localStorage.getItem("clientId"),
+          idF: idF,
+        })
+        .then((response) => {
+          console.log(response);
+
+          if (response.data.message)
+            return alert("Compte  training successfully");
+          alert("This Compte exists  training successfully");
+        })
+        .catch((error) => {
+          this.check = !this.check;
+          console.log(error);
+        });
+    },
+    showDetails(event, id) {
       document.body.style.overflow = "hidden";
       this.isShowDetails = !this.isShowDetails;
       this.checkLoadDetails = !this.checkLoadDetails;
       setTimeout(() => {
         this.checkLoadDetails = !this.checkLoadDetails;
+        this.details = this.nouvelleFormation.find(
+          ({ _idF }, idx) => _idF === id
+        );
+        console.log(this.details);
       }, 3000);
     },
     closeDetails() {
@@ -219,43 +253,17 @@ export default {
     },
     fetchDataFormation() {
       this.loadingData = !this.loadingData;
-      this.nouvelleFormation = [
-        {
-          id: 1,
-          nameFormation: "abdeljalil 1",
-
-          srcImage: "local.png",
-        },
-        {
-          id: 2,
-          nameFormation: "abdeljalil 1",
-
-          srcImage: "local.png",
-        },
-        {
-          id: 3,
-          nameFormation: "abdeljalil 1",
-
-          srcImage: "local.png",
-        },
-        {
-          id: 4,
-          nameFormation: "abdeljalil 1",
-
-          srcImage: "local.png",
-        },
-        {
-          id: 5,
-          nameFormation: "abdeljalil 1",
-
-          srcImage: "local.png",
-        },
-        {
-          id: 6,
-          nameFormation: "abdeljalil 1",
-          srcImage: "local.png",
-        },
-      ];
+      console.log(this.loadingData);
+      this.fetch("http://localhost:3000/formation/all-formation")
+        .then((response) => {
+          console.log(response.data);
+          this.nouvelleFormation = response.data.formations;
+          this.loadingData = true;
+        })
+        .catch((error) => {
+          this.loading = true;
+          console.error(error);
+        });
     },
   },
   computed: {
