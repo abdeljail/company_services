@@ -1,19 +1,19 @@
 <template>
-  <div>d;d;d;d;ddddd;d;d; abdeljali jnsjnjsnjs sjn sjns j</div>
+  <div class="dachbaord">
+    <SectionUnder heading="Dashboard" />
+  </div>
 </template>
-
 <script>
+import SectionUnder from "@/components/admin/global/SectionUnder.vue";
 export default {
-  name: "Dach",
+  name: "Dachboard",
   data() {
-    return {
-      nameFull: "",
-      email: "",
-      image: "",
-    };
+    return {};
+  },
+  components: {
+    SectionUnder,
   },
 };
 </script>
-
 <style>
 </style>
