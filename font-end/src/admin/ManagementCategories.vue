@@ -39,24 +39,26 @@
               <div v-if="getCategory.length === 0">
                 <MessageSeach name="Category" />
               </div>
-              <Item
-                v-for="(category, idx) in getCategory"
-                :key="idx"
-                :item="category"
-                @edit="editCategory"
-                @delete="deleteCategory"
-                :class="!isShow ? 'w-l mx-1' : ''"
-              />
-            </div>
-            <div
-              v-if="!checkLimt"
-              :class="getCategory.length === 0 ? 'd-none' : ''"
-            >
-              <BtnSowMore
-                @show="showMoreCategory"
-                :loading="getLoading"
-                :data-number-show="getCategory.at(-1)._idCat"
-              />
+              <div v-else>
+                <Item
+                  v-for="(category, idx) in getCategory"
+                  :key="idx"
+                  :item="category"
+                  @edit="editCategory"
+                  @delete="deleteCategory"
+                  :class="!isShow ? 'w-l mx-1' : ''"
+                />
+                <div
+                  v-if="!checkLimt"
+                  :class="getCategory.length === 0 ? 'd-none' : ''"
+                >
+                  <BtnSowMore
+                    @show="showMoreCategory"
+                    :loading="getLoading"
+                    :data-number-show="getCategory.at(-1)._idCat"
+                  />
+                </div>
+              </div>
             </div>
           </b-container>
         </div>
@@ -120,11 +122,13 @@ export default {
         .then((response) => {
           this.loading = !this.loading;
           this.categories = response.data.categories;
+          console.log(this.categories);
         })
         .catch((error) => {
           this.loading = !this.loading;
           console.error(error);
         });
+      console.log(this.getCategory);
     }
   },
   methods: {
@@ -135,17 +139,16 @@ export default {
       });
     },
     searchCategory(search) {
-      console.log(search);
-      if (this.getCategory.length == this.categories.length && search == "")
-        return;
-      this.$router.push(`./${search}`);
+      this.$router.push(`/management-categories/${search}`);
       this.searchInput = search;
-      if (Boolean(this.getCategory.length)) return;
+      if (search === "") return;
       this.loading = !this.loading;
       this.fetchCategories(`http://localhost:3000/one-category/${search} `)
         .then((response) => {
           this.loading = !this.loading;
           if (!Boolean(response.data.categories.length)) return;
+          console.log(response.data.categories);
+          console.log(this.loading);
           this.categories.push(response.data.categories[0]);
         })
         .catch((error) => {
