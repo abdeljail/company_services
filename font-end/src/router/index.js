@@ -19,6 +19,7 @@ import ManagementFormation from "../admin/formation/ManagementFormation.vue"
 import EditCategory from "../admin/EditCategory.vue"
 import AddFormation from "../admin/formation/add.vue"
 import EditFormation from "../admin/formation/edit.vue"
+import ManagementIntern from "../admin/intern/ManagementIntern.vue"
 import NotFound404 from "../errors/404.vue"
 Vue.use(VueRouter);
 
@@ -221,6 +222,30 @@ const routes = [
       header: 2,
     }
   },
+
+
+
+
+  // intern
+  {
+    path: "/intern/management-intern/:search?",
+    name: "ManagementIntern",
+    component: ManagementIntern,
+    props: (route) => ({ search: route.params.search || '' }),
+    meta: {
+      header: 2,
+    }
+  },
+  // {
+  //   path: "/intern/edit/:id(\\d+)/:name/",
+  //   name: "EditFormation",
+  //   component: EditFormation,
+  //   meta: {
+  //     header: 2,
+  //   }
+  // },
+
+
 
 
 
