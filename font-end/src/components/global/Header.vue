@@ -14,17 +14,26 @@
               <div :key="idx" v-for="(link, idx) in linksHeader">
                 <b-nav-item-dropdown
                   v-if="idx === 5"
-                  :text="link[0]"
+                  text="profile"
                   class="item-link px-2 py-1 rounded text-capitalize"
                   right
+                  id="link"
                 >
-                  <div>
+                  <div v-if="!name">
                     <b-dropdown-item
                       :key="index"
                       v-for="(link, index) in OurServices"
                       :to="link[1]"
                       >{{ link[0] }}</b-dropdown-item
                     >
+                  </div>
+                  <div>
+                    <div class="p-2">
+                      {{ name }}
+                    </div>
+                    <div class="p-2">
+                      {{ email }}
+                    </div>
                   </div>
                 </b-nav-item-dropdown>
                 <b-nav-item
@@ -50,13 +59,18 @@ export default {
   data() {
     return {
       checkRoute: true,
+      email: "",
+      name: "",
+      image: "",
+      name: "",
+      profile: "",
       linksHeader: [
         ["Home", "/"],
         ["Training Offer", "/training-offer"],
         ["Quote request", "/application-r-i"],
         ["about us", "/who-are-we"],
         ["Contact Us", "/contact-us"],
-        ["More", "#"], 
+        ["More", "#"],
       ],
       OurServices: [
         ["sing in", "sing-in"],
@@ -65,9 +79,13 @@ export default {
     };
   },
   inject: ["logoImage"],
+  created() {
+    this.name = localStorage.getItem("clientName");
+    this.email = localStorage.getItem("clientEmail");
+  },
 };
 </script>
-<style>
+<style scoped>
 button[type="button"] span {
   background-image: url("../../assets/images/menu.png") !important;
 }
@@ -107,5 +125,8 @@ li[role="presentation"] .dropdown-item.router-link-active:hover {
 }
 li[role="presentation"] .dropdown-item {
   text-transform: capitalize !important;
+}
+.navbar-dark .navbar-nav .show > .nav-link {
+  color: #111 !important;
 }
 </style>
