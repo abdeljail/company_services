@@ -122,7 +122,6 @@ export default {
         .then((response) => {
           this.loading = !this.loading;
           this.formation = response.data.formations;
-          console.log(this.formation + "thidi di di d ");
         })
         .catch((error) => {
           this.loading = !this.loading;
@@ -212,10 +211,8 @@ export default {
   },
   computed: {
     getFormation() {
-      console.log(this.formation);
-      return this.formation;
-      return this.formation.filter((cats) => {
-        return cats._name.match(new RegExp(this.searchInput, "i"));
+      return this.formation.filter((forms) => {
+        return forms._name.match(new RegExp(this.searchInput, "i"));
       });
     },
     getNumberShow() {
