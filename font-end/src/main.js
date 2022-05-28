@@ -11,11 +11,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 
+import '@/assets/css/global.css';
+
 Vue.use(BootstrapVue);
 
 Vue.use(IconsPlugin);
 
-Vue.use( CKEditor );
+Vue.use(CKEditor);
 
 Vue.config.productionTip = false;
 
