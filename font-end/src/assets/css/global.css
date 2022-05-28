@@ -1,0 +1,167 @@
+@import url("http://fonts.cdnfonts.com/css/cubano");
+
+
+:root {
+    --primary: #238a91;
+    --second: #0e314c;
+    --bc-white: #ffffff;
+    --bc-hover-link: #238a9133;
+    --color-danger: #F43F5E;
+    --cl-paragraph: #454e56;
+    --font-link: "Cubano", sans-serif;
+    --font-paragraph: Helvetica, Arial, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+    border: none;
+    outline: none;
+}
+
+
+
+
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    user-select: none;
+}
+
+.logo-image {
+    width: 60px;
+    height: 60px;
+}
+
+.content-router-aside>div:last-child {
+    height: 100vh;
+}
+
+.content-router-aside>div:last-child {
+    flex-grow: 1.5;
+}
+
+.content-router-aside.active .aside-show {
+    position: absolute !important;
+    left: -300px;
+}
+
+.content-router-aside.active .router-w-100 {
+    width: 100%;
+}
+
+.model {
+    background-color: #0e314c70;
+    z-index: -1;
+    transition: 0.2s ease-in;
+    opacity: 0;
+}
+
+.overly {
+    opacity: 1;
+    z-index: 10;
+}
+
+h1 {
+    color: var(--second);
+    font-size: 26px;
+    line-height: 1.8;
+}
+
+.page-app {
+    height: 100vh;
+    width: 100%;
+}
+
+.form {
+    min-width: 280px;
+    max-width: 280px;
+    min-height: 320px;
+    box-shadow: 0 1px 16px #DDD
+}
+
+.font-14 {
+    font-size: 14px;
+    border-color: #b6b6b6 !important;
+}
+
+#a-link.a-link {
+    font-size: 12px;
+    color: var(--cl-paragraph) !important;
+}
+
+#a-link.a-link:hover {
+    color: var(--primary) !important;
+    transition: 0.3s ease-in-out;
+}
+
+.input-err {
+    border-color: var(--color-danger) !important;
+}
+
+input:focus {
+    border-color: var(--primary) !important;
+}
+
+button {
+    transition: 0.3s ease-in-out;
+}
+
+button {
+    background-color: var(--primary);
+}
+
+button:hover,
+button:disabled,
+button.check {
+    background-color: #238a91d1;
+}
+
+button::after {
+    content: attr(data-name);
+}
+
+button:disabled:after,
+button.check:after {
+    display: block;
+    content: "";
+    border: 6px solid #eee;
+    animation: loding 1s linear infinite;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+
+.color-primary {
+    color: var(--primary);
+}
+
+.color-h-white:hover {
+    color: var(--bc-white) !important;
+}
+
+.none-bg-primary {
+    background: none;
+}
+
+
+
+@keyframes loding {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+button[data-name="login"]::after {
+    border-bottom-color: var(--second);
+}
