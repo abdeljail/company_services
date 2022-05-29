@@ -7,7 +7,7 @@
         return object
 */
 
-function string(str, reg = false, length = 0) {
+function string(str, reg, length = 0) {
 
     let message = ``
 
@@ -32,7 +32,9 @@ function string(str, reg = false, length = 0) {
                 message: `this string is has number `
             }
 
-        if (length !== 0 && str < length)
+
+
+        if (length !== 0 && str.length < length)
             return {
                 valid: false,
                 message: `<p>The string must be eight characters or longer ${length}</p>`
@@ -101,15 +103,10 @@ function email(email) {
     if (email.includes("@."))
         message += `<p class="text-white mb-2">has not string between [ @ and . ] .</p>`
 
-
-
     return {
         valid: false,
         message: message
     };
-
-
-
 
 }
 
