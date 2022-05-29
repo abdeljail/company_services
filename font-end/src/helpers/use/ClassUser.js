@@ -1,14 +1,12 @@
 
 import EmailPasswod from "./ClassEmailPassword.js"
-
+import { string } from '../exports/inputs/CheckInput.js'
 class User extends EmailPasswod {
 
     static counter = 0;
 
-
     #firstName
     #lastName
-
 
     constructor(firstName, lastName, email, password, url) {
         super(email, password, url);
@@ -19,6 +17,13 @@ class User extends EmailPasswod {
 
     static getNumberCreated() {
         return `number create this object User ${this.counter}`
+    }
+
+    checkString(check = true) {
+
+        let name = check ? this.#firstName : this.#lastName
+        return string(name, false, 3)
+
     }
 
     getFirstName() {
