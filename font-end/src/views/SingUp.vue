@@ -1,338 +1,124 @@
 <template>
-  <div
-    class="sing-up d-flex justify-content-center align-content-center flex-wrap"
-  >
-    <router-link
-      class="
-        text-decoration-none text-white
-        px-3
-        py-2
-        rounded
-        back-home
-        position-absolute
-      "
-      to="/"
+  <div class="page-app d-flex flex-column">
+    <Header />
+    <div
+      class="page-app sing-in d-flex justify-content-center align-items-center"
     >
-      Back in Home page
-    </router-link>
-    <div class="content">
-      <div class="p-3 from rounded bg-white">
-        <form @submit.prevent="submitData()" class="py-3">
-          <div class="header">
-            <span class="fw-bold">Company Services</span>
-            <h1 class="mt-3">Create your Company Services Account</h1>
+      <div class="content">
+        <div class="p-3 form border rounded bg-white">
+          <div class="py-3">
+            <h2 class="fw-bold fs-1 text-capitalize">Sign Up</h2>
+            <span class="font-14">It's quick and easy.</span>
           </div>
-          <div class="body">
-            <div class="py-3 d-flex">
-              <div class="position-relative">
-                <input
-                  :class="printClass(checkFristNameInput)"
-                  class="px-2 py-2 w-100 border-0 border-bottom"
-                  type="text"
-                  name="FristName"
-                  v-model="FristName"
-                  id="FristName"
-                  @blur="checkFristName()"
-                />
-                <label for="FristName" class="position-absolute"
-                  >First Name</label
-                >
-              </div>
-              <div class="position-relative">
-                <input
-                  :class="printClass(checkLastNameInput)"
-                  class="px-2 py-2 w-100 border-0 border-bottom"
-                  type="text"
-                  name="LastName"
-                  v-model="LastName"
-                  id="LastName"
-                  @blur="checkLastName()"
-                />
-                <label for="LastName" class="position-absolute"
-                  >Last Name</label
-                >
-              </div>
-            </div>
-            <div class="py-3">
-              <div class="position-relative">
-                <input
-                  :class="printClass(checkEmailInput)"
-                  class="px-2 py-2 w-100 border-0 border-bottom"
-                  type="email"
-                  name="email"
-                  v-model="name"
-                  id="email"
-                  @blur="checkEmail()"
-                />
-                <label for="email" class="position-absolute"
-                  >Address Email</label
-                >
-              </div>
-            </div>
-            <div class="py-3">
-              <div class="position-relative">
-                <input
-                  :class="printClass(checkPasswordInput)"
-                  class="border-0 border-bottom px-2 py-2 w-100 d-block"
-                  type="password"
-                  name="password"
-                  v-model="password"
-                  id="password"
-                  @blur="checkPassword()"
-                />
-                <label class="position-absolute" for="password">Password</label>
-              </div>
-            </div>
-            <div class="pb-2 text-end"></div>
+          <div class="">
+            <form @submit.prevent="submitData()" class="">
+              <Texts name="First" :errText="isErrFirst" ref="first" />
+              <Texts name="Last" :errText="isErrLast" ref="last" />
+              <Email :errEmail="isErrEmail" ref="email" />
+              <Password :errPassword="isErrPassword" ref="password" />
+              <Button name="Sign Up" :check="isCheck" />
+              <ChangePage name="sing in" path="/sing-in" />
+            </form>
           </div>
-          <div class="footer pt-3">
-            <div class="pt-3">
-              <button
-                type="submit"
-                :disabled="check"
-                class="
-                  w-100
-                  py-2
-                  d-flex
-                  justify-content-center
-                  border-0
-                  rounded
-                  algin-items-center
-                  text-white
-                "
-                :class="check ? '' : ''"
-                data-name="sing in"
-                @click="submitData()"
-              ></button>
-            </div>
-            <div class="pt-3">
-              <span>Don't have an account?</span>
-              <router-link to="/" class="text-decoration-none">
-                Register
-              </router-link>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div
-        v-if="Boolean(Object.keys(this.objAlert).length)"
-        class="res-alert position-relative"
-      >
-        <Alert @emptyObjAlert="emptyObjAlert" :objAlert="objAlert" />
+        </div>
       </div>
     </div>
+    <Footer />
+    <Alert
+      v-if="!isErrPassword || !isErrEmail"
+      :Alert="alert"
+      @emptyAlert="emptyAlert"
+      className=""
+    />
   </div>
 </template>
 <script>
-import axios from "axios";
-import Alert from "../components/global/alert.vue";
+import User from "@/helpers/use/ClassUser.js";
+import Header from "@/components/sing-in-up/Header.vue";
+import Texts from "@/components/form/Text.vue";
+import Email from "@/components/form/Email.vue";
+import Password from "@/components/form/Password.vue";
+import Button from "@/components/form/Button.vue";
+import ChangePage from "@/components/form/ChangePage.vue";
+import Alert from "@/components/global/alert.vue";
+import Footer from "@/components/sing-in-up/Footer.vue";
 export default {
   name: "SingUp",
   data() {
     return {
-      checkEmailInput: "",
-      checkPasswordInput: "",
-      checkFristNameInput: "",
-      checkLastNameInput: "",
-      check: false,
-      FristName: "",
-      LastName: "",
-      password: "",
-      name: "",
-      objAlert: {},
+      isCheck: false,
+      isErrFirst: true,
+      isErrLast: true,
+      isErrEmail: true,
+      isErrPassword: true,
+      alert: [],
+      user: new User("", "", "", "", "http://localhost:3000/login-client/"),
     };
   },
   components: {
+    Header,
+    Texts,
+    Email,
+    Password,
+    Button,
+    ChangePage,
     Alert,
+    Footer,
   },
   methods: {
     submitData() {
-      this.checkFristName();
-      this.checkLastName();
-      this.checkPassword();
-      this.checkEmail();
-      if (!this.checkEmailInput) {
-        return;
-      }
-      if (!this.checkPasswordInput) {
-        return;
+      if (this.isCheck) return;
+
+      if (!this.isErrPassword || !this.isErrEmail) return this.emptyObjAlert();
+
+      this.user.firstName = this.$refs.first.$refs.First.value;
+      this.user.lastName = this.$refs.last.$refs.Last.value;
+      this.user.email = this.$refs.email.$refs.email.value;
+      this.user.password = this.$refs.password.$refs.password.value;
+
+      let { valid: validFirst, message: messageFirst } =
+        this.user.checkString();
+      let { valid: validLast, message: messageLast } =
+        this.user.checkString(false);
+
+      let { valid: validEmail, message: messageEmail } = this.user.checkEmail();
+      let { valid: validPassword, message: messagePassword } =
+        this.user.checkPassword();
+
+      if (!validFirst) {
+        this.alert.push(messageFirst);
+        this.isErrFirst = !this.isErrFirst;
       }
 
-      this.check = !this.check;
+      if (!validLast) {
+        this.alert.push(messageLast);
+        this.isErrLast = !this.isErrLast;
+      }
 
-      axios
-        .post("http://localhost:3000/create-client/", {
-          fullName: this.FristName + "-" + this.LastName,
-          email: this.name,
-          password: this.password,
-        })
-        .then((response) => {
-          this.FristName = "";
-          this.LastName = "";
-          this.name = "";
-          this.password = "";
-          this.check = !this.check;
-          if (response.data.message) {
-            setTimeout(()=>{
-              this.$router.push("/")
-            },1000)
-            this.objAlert.nameClass = "alert-success";
-            return (this.objAlert.message = "Compte  added successfully");
-          }
-          this.objAlert.nameClass = "alert-warning";
-          this.objAlert.message = "This Compte exists";
-        })
-        .catch((error) => {
-          this.check = !this.check;
-          console.log(error);
-        });
-    },
-    checkFristName() {
-      if (this.FristName === "" || this.FristName.length <= 4) {
-        this.checkFristNameInput = false;
-        return;
+      if (!validEmail) {
+        this.alert.push(messageEmail);
+        this.isErrEmail = !this.isErrEmail;
       }
-      this.checkFristNameInput = true;
-    },
-    checkLastName() {
-      if (this.LastName === "" || this.LastName.length <= 4) {
-        this.checkLastNameInput = false;
-        return;
+
+      if (!validPassword) {
+        this.alert.push(messagePassword);
+        this.isErrPassword = !this.isErrPassword;
       }
-      this.checkLastNameInput = true;
+
+      if (!validFirst || !validLast || !validEmail || !validPassword) return;
+
+      this.isCheck = true;
     },
-    checkEmail() {
-      if (
-        !this.name.includes("@") ||
-        !this.name.includes(".") ||
-        this.name === null
-      ) {
-        this.checkEmailInput = false;
-        return;
-      }
-      this.checkEmailInput = true;
-    },
-    checkPassword() {
-      if (this.password === "") {
-        this.checkPasswordInput = false;
-        return;
-      }
-      this.checkPasswordInput = true;
-    },
-    printClass(nameValue) {
-      if (nameValue === "") return "";
-      if (nameValue) return "sec-input";
-      return "err-input";
-    },
-    emptyObjAlert() {
-      this.objAlert = {};
+    emptyAlert() {
+      this.alert = [];
+      this.isErrFirst = true;
+      this.isErrLast = true;
+      this.isErrEmail = true;
+      this.isErrPassword = true;
     },
   },
 };
 </script>
 
-<style scoped>
-.sing-up {
-  height: 100vh;
-  width: 100vw;
-  background: url("../assets/images/sinup.png") no-repeat 100%;
-}
-.back-home {
-  top: 20px;
-  right: 40px;
-  background-color: var(--second);
-  color: var(--bc-white) !important;
-}
-.sing-up .from {
-  min-width: 340px;
-  max-width: 280px;
-  min-height: 320px;
-  box-shadow: -2px 20px 100px 400px rgba(0, 0, 0, 0.2);
-}
-.sing-up .from span {
-  color: var(--primary);
-  font-size: 14px;
-}
-h1 {
-  color: var(--second);
-  font-size: 16px;
-}
-a {
-  color: var(--primary) !important;
-  font-size: 12px !important;
-  font-weight: bold;
-}
-
-input {
-  outline: none;
-  border-bottom-width: 2px !important;
-  border-bottom-color: #747a7a;
-}
-input.err-input {
-  border-bottom-color: #f72003 !important;
-}
-input.err-input + label {
-  color: #f72003 !important ;
-  top: -10px;
-  left: 10px;
-}
-input:focus,
-input.sec-input {
-  border-bottom-color: var(--primary) !important;
-}
-label {
-  font-size: 12px;
-  top: 15px;
-  left: 15px;
-  transition: 0.3s ease-in;
-  font-weight: bold;
-  cursor: pointer;
-  color: #747a7a;
-}
-input:focus + label,
-input.sec-input + label {
-  top: -10px;
-  left: 10px;
-  color: var(--primary);
-}
-
-.footer div:last-child {
-  font-size: 12px !important;
-  color: #747a7a;
-}
-
-button {
-  background-color: var(--primary);
-  transition: 0.3s ease-in-out;
-}
-button:hover {
-  background-color: #238a91d1;
-}
-button:hover,
-button:disabled,
-button.check {
-  background-color: #238a91d1;
-}
-button::after {
-  content: attr(data-name);
-}
-button:disabled:after,
-button.check:after {
-  display: block;
-  content: "";
-  border: 6px solid #eee;
-  animation: loding 1s linear infinite;
-  border-bottom-color: var(--second);
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-}
-@keyframes loding {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+<style>
 </style>
