@@ -21,9 +21,6 @@
               </div>
               <Button name="login" :check="isCheck" />
               <ChangePage name="create a new account" path="/sing-up" />
-              <!-- <button @click="submitData()" type="button " name="mmvm">
-                clclcllclclclclclclcl
-              </button> -->
             </form>
           </div>
         </div>
@@ -33,8 +30,9 @@
 
     <Alert
       v-if="!isErrPassword || !isErrEmail"
-      :objAlert="alert"
-      @emptyObjAlert="emptyObjAlert"
+      :Alert="alert"
+      @emptyAlert="emptyAlert"
+      className=""
     />
   </div>
 </template>
@@ -54,7 +52,7 @@ export default {
       isCheck: false,
       isErrEmail: true,
       isErrPassword: true,
-      alert: { className: "dldldldldldldldldl" },
+      alert: [],
       user: new EmailPasswod("", "", "http://localhost:3000/login-client/"),
     };
   },
@@ -71,11 +69,7 @@ export default {
     submitData() {
       if (this.isCheck) return;
 
-      if (!this.isErrPassword || !this.isErrEmail) {
-        return this.emptyObjAlert();
-      }
-
-      console.log(",jds,jnbv,mdn,m");
+      if (!this.isErrPassword || !this.isErrEmail) return this.emptyObjAlert();
 
       this.user.email = this.$refs.email.$refs.email.value;
       this.user.password = this.$refs.password.$refs.password.value;
@@ -85,23 +79,21 @@ export default {
         this.user.checkPassword();
 
       if (!validEmail) {
-        this.alert.email = messageEmail;
+        this.alert.push(messageEmail);
         this.isErrEmail = !this.isErrEmail;
       }
 
       if (!validPassword) {
-        this.alert.password = messagePassword;
+        this.alert.push(messagePassword);
         this.isErrPassword = !this.isErrPassword;
       }
 
       if (!validEmail || !validPassword) return;
 
       this.isCheck = true;
-
-      console.log("yes");
     },
-    emptyObjAlert() {
-      this.alert = {};
+    emptyAlert() {
+      this.alert = [];
       this.isErrPassword = true;
       this.isErrEmail = true;
     },
